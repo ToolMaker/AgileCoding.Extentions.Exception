@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31019.35
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgileCoding.Extentions.Exception", "AgileCoding.Extentions.Exception\AgileCoding.Extentions.Exception.csproj", "{534F0C52-79E5-4EFC-8BB7-365D705EA1DF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgileCoding.Extentions.Exceptions", "AgileCoding.Extentions.Exceptions\AgileCoding.Extentions.Exceptions.csproj", "{534F0C52-79E5-4EFC-8BB7-365D705EA1DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
