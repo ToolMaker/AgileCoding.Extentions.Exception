@@ -9,8 +9,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("Extenions related to Exceptions")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("AgileCoding.Extentions.Exception")]
-[assembly: AssemblyCopyright("Copyright © Ernie Gunning  2021")]
+[assembly: AssemblyProduct("AgileCoding")]
+[assembly: AssemblyCopyright("Copyright (c) Ernie Gunning 2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
