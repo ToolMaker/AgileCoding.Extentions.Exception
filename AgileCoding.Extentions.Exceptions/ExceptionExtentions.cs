@@ -5,7 +5,7 @@
     using System.Linq;
     using System.Reflection;
     using System.Text;
-    //using AgileCoding.Extentions.Activators;
+    using AgileCoding.Extentions.Activators;
 
     public static class ExceptionExtentions
     {
@@ -31,8 +31,7 @@
             var exceptionString = GetReflectionTypeLoadException(exception);
             if (string.IsNullOrEmpty(exceptionString))
             {
-                //return typeof(IExceptionType).CreateInstanceWithoutLogging<IExceptionType>(exceptionString);
-                return null;
+                return typeof(IExceptionType).CreateInstanceWithoutLogging<IExceptionType>(exceptionString);
             }
 
             return exception;
