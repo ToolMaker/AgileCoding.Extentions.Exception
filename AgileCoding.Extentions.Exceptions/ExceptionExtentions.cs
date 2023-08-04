@@ -15,7 +15,14 @@
             {
                 StringBuilder sb = new StringBuilder();
                 WriteExectionToStringBuilder(ex, sb, "-----Top Exception Details -----", "----- End of Top Exception Details ----");
-                CheckInnerException(ex.InnerException, sb);
+                if (ex.InnerException != null)
+                {
+                    CheckInnerException(ex.InnerException, sb);
+                }
+                else
+                {                     
+                    sb.AppendLine("No Inner Exception");
+                }
 
                 return sb.ToString();
             }
@@ -28,10 +35,16 @@
         private static Exception AddReflectionTypeLoadException<IExceptionType>(this Exception exception)
             where IExceptionType : Exception
         {
-            var exceptionString = GetReflectionTypeLoadException(exception);
-            if (string.IsNullOrEmpty(exceptionString))
+            string exceptionString = GetReflectionTypeLoadException(exception);
+            if (!string.IsNullOrEmpty(exceptionString))
             {
-                return typeof(IExceptionType).CreateInstanceWithoutLogging<IExceptionType>(exceptionString);
+                var exceptionToReturn =  typeof(IExceptionType).CreateInstanceWithoutLogging<IExceptionType>(exceptionString);
+                if (exceptionToReturn != null)
+                {
+                    return exceptionToReturn;
+                }
+
+                throw new Exception($"Unable to create instance of {typeof(IExceptionType).Name} with message {exceptionString}");
             }
 
             return exception;
@@ -45,24 +58,32 @@
                 allLoaderExceptions.AppendLine($"Main Exception {Environment.NewLine}{ToStringAll(exception)}{Environment.NewLine}LoaderException(s) : {Environment.NewLine}");
 
                 var typeLoadException = exception as ReflectionTypeLoadException;
-                var loaderExceptions = typeLoadException.LoaderExceptions.ToList();
-
-                loaderExceptions.ForEach((loaderException) =>
+                if (typeLoadException != null)
                 {
-                    allLoaderExceptions.AppendLine($"{ToStringAll(loaderException)}");
-
-                    if (loaderException is FileNotFoundException)
+                    var loaderExceptions = typeLoadException.LoaderExceptions.ToList();
+                    loaderExceptions.ForEach((loaderException) =>
                     {
-                        allLoaderExceptions.AppendLine($"FusionLog : {((FileNotFoundException)loaderException).FusionLog}");
-                    }
-                    else if (loaderException is FileLoadException)
-                    {
-                        allLoaderExceptions.AppendLine($"FusionLog : {((FileLoadException)loaderException).FusionLog}");
-                    }
+                        if (loaderException != null)
+                        {
+                            allLoaderExceptions.AppendLine($"{ToStringAll(loaderException)}");
 
-                    allLoaderExceptions.Append("----End Of Loader Exception-----");
-                });
+                            if (loaderException is FileNotFoundException)
+                            {
+                                allLoaderExceptions.AppendLine($"FusionLog : {((FileNotFoundException)loaderException).FusionLog}");
+                            }
+                            else if (loaderException is FileLoadException)
+                            {
+                                allLoaderExceptions.AppendLine($"FusionLog : {((FileLoadException)loaderException).FusionLog}");
+                            }
 
+                            allLoaderExceptions.Append("----End Of Loader Exception-----");
+                        }
+                    });
+                }
+                else
+                {
+                      allLoaderExceptions.AppendLine($"Unable to cast exception to {typeof(ReflectionTypeLoadException).Name}");
+                }
             }
 
             return allLoaderExceptions.ToString();
@@ -73,7 +94,14 @@
             if (ex != null)
             {
                 WriteExectionToStringBuilder(ex, sb, "----- Inner Exception Details -----", "----- End of Inner Exception Details -----");
-                CheckInnerException(ex.InnerException, sb);
+                if (ex.InnerException != null)
+                {
+                    CheckInnerException(ex.InnerException, sb);
+                }
+                else
+                {
+                    sb.AppendLine("No Inner Exception");
+                }
             }
         }
 
